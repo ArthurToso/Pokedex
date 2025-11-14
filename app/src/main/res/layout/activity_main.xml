@@ -42,7 +42,6 @@
         android:layout_height="wrap_content"
         android:hint="Login"
         android:layout_marginTop="40dp"
-        app:startIconDrawable="@drawable/ic_user"
         app:layout_constraintTop_toBottomOf="@id/tvLoginTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -62,7 +61,6 @@
         android:layout_height="wrap_content"
         android:hint="Senha"
         android:layout_marginTop="16dp"
-        app:startIconDrawable="@drawable/ic_lock"
         app:passwordToggleEnabled="true"
         app:layout_constraintTop_toBottomOf="@id/tilLogin"
         app:layout_constraintStart_toStartOf="parent"
