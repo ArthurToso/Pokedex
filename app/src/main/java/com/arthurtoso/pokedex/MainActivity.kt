@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
             return
         }else{
             autenticaUsuario(login, senha)
-            btnLogin.isEnabled = true
         }
     }
 
@@ -60,10 +59,12 @@ class MainActivity : AppCompatActivity() {
                     redirecionaDashboard()
                 }else{
                     showLoginErrorDialog("Login ou Senha incorretos")
+                    btnLogin.isEnabled = true
                 }
             }catch (e: Exception){
                 Log.e("MainActivity", "Erro ao fazer login", e)
                 showLoginErrorDialog("Não foi possível conectar ao servidor, tente novamente")
+                btnLogin.isEnabled = true
             }
         }
     }
