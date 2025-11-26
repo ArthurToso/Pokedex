@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var etLogin: EditText
     lateinit var etPassword: EditText
     lateinit var btnLogin: Button
+    lateinit var pgBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         etLogin = findViewById(R.id.etLogin)
         etPassword = findViewById(R.id.etPassword)
         btnLogin = findViewById(R.id.btnLogin)
+        pgBar = findViewById(R.id.progressBar)
 
         btnLogin.setOnClickListener {
             cliqueBotao()
@@ -53,6 +56,7 @@ class MainActivity : AppCompatActivity() {
     private fun autenticaUsuario(login: String, senha: String){
         lifecycleScope.launch {
             try {
+                pgBar.visibility = ProgressBar.VISIBLE
                 val request = LoginRequest(login, senha)
                 val response = ApiClient.instance.login(request)
                 if (response.isSuccessful && response.body()?.access_token != null){
@@ -60,11 +64,13 @@ class MainActivity : AppCompatActivity() {
                 }else{
                     showLoginErrorDialog("Login ou Senha incorretos")
                     btnLogin.isEnabled = true
+                    pgBar.visibility = ProgressBar.GONE
                 }
             }catch (e: Exception){
                 Log.e("MainActivity", "Erro ao fazer login", e)
                 showLoginErrorDialog("Não foi possível conectar ao servidor, tente novamente")
                 btnLogin.isEnabled = true
+                pgBar.visibility = ProgressBar.GONE
             }
         }
     }
