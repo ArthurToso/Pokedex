@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.arthurtoso.pokedex.api.ApiClient
 import com.arthurtoso.pokedex.api.Pokemon
+import com.arthurtoso.pokedex.api.SessionManager
 import kotlinx.coroutines.launch
 
 class DashboardActivity : AppCompatActivity() {
@@ -62,7 +63,7 @@ class DashboardActivity : AppCompatActivity() {
     private fun setupButtonListeners() {
         btnRegisterPokemon.setOnClickListener { 
             val intent = Intent(this, CadastroActivity::class.java)
-            intent.putExtra("USER_NAME", user)
+            intent.putExtra("USER_NAME", SessionManager.usuarioLogado)
             startActivity(intent)
         }
         btnListPokemons.setOnClickListener { 
