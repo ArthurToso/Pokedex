@@ -7,6 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     @POST("/token")
@@ -16,14 +17,20 @@ interface ApiService {
     @GET("/pokemons-list")
     suspend fun getPokemons(): Response<List<Pokemon>>
 
-    @PUT("pokemons/{id}") // Rota para atualizar
+    @PUT("pokemons/{id}")
     suspend fun updatePokemon(
         @Path("id") id: Int,
         @Body pokemon: PokemonRequest
     ): Response<DefaultResponse>
 
-    @DELETE("pokemons/{id}") // Rota para excluir
+    @DELETE("pokemons/{id}")
     suspend fun deletePokemon(
         @Path("id") id: Int
     ): Response<DefaultResponse>
+
+    @GET("/pokemons/search/tipo")
+    suspend fun searchPokemonByType(@Query("q") query: String): Response<List<Pokemon>>
+
+    @GET("/pokemons/search/habilidade")
+    suspend fun searchPokemonByAbility(@Query("q") query: String): Response<List<Pokemon>>
 }

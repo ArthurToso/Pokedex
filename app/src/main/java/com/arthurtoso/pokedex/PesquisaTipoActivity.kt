@@ -13,7 +13,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import com.arthurtoso.pokedex.api.ApiClient
 import com.google.android.material.appbar.MaterialToolbar
+import kotlinx.coroutines.launch
 
 class PesquisaTipoActivity : AppCompatActivity() {
 
@@ -65,7 +68,13 @@ class PesquisaTipoActivity : AppCompatActivity() {
         searchView.queryHint = "Pesquisar tipos..."
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean = false
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (!query.isNullOrEmpty()) {
+                    buscarPorTipo(query) // Chama a API aqui
+                    searchView.clearFocus()
+                }
+                return true
+            }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 filtrarLista(newText ?: "")
@@ -76,7 +85,35 @@ class PesquisaTipoActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    // --- NOVA FUNÇÃO PARA CHAMAR A API ---
+    private fun buscarPorTipo(tipo: String) {
+        lifecycleScope.launch {
+            try {
+                // Chama o endpoint definido no ApiService
+                val response = ApiClient.instance.searchPokemonByType(tipo)
+
+                if (response.isSuccessful && response.body() != null) {
+                    val listaRetornada = response.body()!!
+
+                    listaFiltrada.clear()
+                    // Mapeia os objetos Pokemon para apenas seus nomes (String)
+                    listaFiltrada.addAll(listaRetornada.map { it.nome })
+
+                    adapter.notifyDataSetChanged()
+
+                    if (listaFiltrada.isEmpty()) {
+                        Toast.makeText(this@PesquisaTipoActivity, "Nenhum pokémon encontrado.", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this@PesquisaTipoActivity, "Erro na busca: ${response.code()}", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@PesquisaTipoActivity, "Erro de conexão: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()

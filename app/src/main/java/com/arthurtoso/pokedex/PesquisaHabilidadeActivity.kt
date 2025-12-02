@@ -13,7 +13,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import com.arthurtoso.pokedex.api.ApiClient
 import com.google.android.material.appbar.MaterialToolbar
+import kotlinx.coroutines.launch
 
 class PesquisaHabilidadeActivity : AppCompatActivity() {
 
@@ -58,7 +61,13 @@ class PesquisaHabilidadeActivity : AppCompatActivity() {
         searchView.queryHint = "Pesquisar habilidades..."
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean = false
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (!query.isNullOrEmpty()) {
+                    buscarPorHabilidade(query) // Chama a API aqui
+                    searchView.clearFocus()
+                }
+                return true
+            }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 filtrarLista(newText ?: "")
@@ -68,6 +77,34 @@ class PesquisaHabilidadeActivity : AppCompatActivity() {
 
         return true
     }
+
+    private fun buscarPorHabilidade(habilidade: String) {
+        lifecycleScope.launch {
+            try {
+                // Chama o endpoint definido no ApiService
+                val response = ApiClient.instance.searchPokemonByAbility(habilidade)
+
+                if (response.isSuccessful && response.body() != null) {
+                    val listaRetornada = response.body()!!
+
+                    listaFiltrada.clear()
+                    // Mapeia os objetos Pokemon para apenas seus nomes (String)
+                    listaFiltrada.addAll(listaRetornada.map { it.nome })
+
+                    adapter.notifyDataSetChanged()
+
+                    if (listaFiltrada.isEmpty()) {
+                        Toast.makeText(this@PesquisaHabilidadeActivity, "Nenhum pokémon encontrado com essa habilidade.", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this@PesquisaHabilidadeActivity, "Erro na busca: ${response.code()}", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@PesquisaHabilidadeActivity, "Erro de conexão: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

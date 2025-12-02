@@ -20,18 +20,11 @@
         <activity
             android:name=".ListarActivity"
             android:exported="false" />
-            android:name=".PesquisaHabilidadeActivity"
-            android:exported="true" />
-        <activity
-            android:name=".PesquisaTipoActivity"
-            android:exported="true"
-            android:theme="@style/Base.Theme.Pokedex"
-            />
         <activity
             android:name=".CadastroActivity"
             android:exported="false" />
         <activity
-            android:name="com.arthurtoso.pokedex.SplashScrActivity"
+            android:name=".SplashScrActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -46,6 +39,12 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-    </application>
-
+        <activity
+            android:name=".PesquisaHabilidadeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PesquisaTipoActivity"
+            android:exported="true"
+            android:theme="@style/Base.Theme.Pokedex"
+            /> </application>
 </manifest>

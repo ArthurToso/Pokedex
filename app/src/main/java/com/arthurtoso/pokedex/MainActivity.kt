@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun redirecionaDashboard(){
-        val intent = Intent(this, ListarActivity::class.java)
+        val intent = Intent(this, DashboardActivity::class.java)
         //Passando o login para o dashboard por intent também, além do SessionManager
         intent.putExtra("USER_LOGIN", SessionManager.usuarioLogado)
         startActivity(intent)
