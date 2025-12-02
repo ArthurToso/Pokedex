@@ -40,7 +40,7 @@ class DashboardActivity : AppCompatActivity() {
             insets
         }
 
-        user = intent.getStringExtra("USER_NAME")
+        user = intent.getStringExtra("USER_LOGIN")
         tvRegisteredPokemons = findViewById(R.id.tvRegisteredPokemons)
         tvTopTypes = findViewById(R.id.tvTopTypes)
         tvTopAbilities = findViewById(R.id.tvTopAbilities)
@@ -63,7 +63,7 @@ class DashboardActivity : AppCompatActivity() {
     private fun setupButtonListeners() {
         btnRegisterPokemon.setOnClickListener { 
             val intent = Intent(this, CadastroActivity::class.java)
-            intent.putExtra("USER_NAME", SessionManager.usuarioLogado)
+            intent.putExtra("USER_LOGIN", SessionManager.usuarioLogado)
             startActivity(intent)
         }
         btnListPokemons.setOnClickListener { 
