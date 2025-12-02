@@ -34,7 +34,7 @@ class PesquisaTipoActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Dados de exemplo (substitua pelos seus dados reais)
+        // Dados de exemplo
         listaOriginal = listOf(
             "Normal", "Fogo", "Água", "Planta", "Elétrico",
             "Gelo", "Lutador", "Venenoso", "Terra", "Voador",
