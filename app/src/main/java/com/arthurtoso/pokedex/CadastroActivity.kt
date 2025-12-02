@@ -95,7 +95,7 @@ class CadastroActivity : AppCompatActivity() {
                     nome = nome,
                     tipo = tipo,
                     habilidades = habilidades,
-                    usuario = userLogin
+                    dono_login = userLogin
                 )
 
                 val response = ApiClient.instance.addPokemon(request)
