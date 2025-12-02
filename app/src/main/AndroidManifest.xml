@@ -15,10 +15,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pokedex">
         <activity
+            android:name=".PesquisaHabilidadeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PesquisaTipoActivity"
+            android:exported="true"
+            android:theme="@style/Base.Theme.Pokedex"
+            />
+        <activity
             android:name=".CadastroActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashScrActivity"
+            android:name="com.arthurtoso.pokedex.SplashScrActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -32,7 +40,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>
