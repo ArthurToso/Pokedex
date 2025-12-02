@@ -15,6 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pokedex">
         <activity
+            android:name=".DetalhesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ListarActivity"
+            android:exported="false" />
             android:name=".PesquisaHabilidadeActivity"
             android:exported="true" />
         <activity
